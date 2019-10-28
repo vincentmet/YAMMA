@@ -1,19 +1,32 @@
 package com.vincentmet.yamma;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(Ref.MODID)
+@Mod(modid = Ref.MODID, version = "1.12.2-0.2", name = "Yet Another Mining Mod Attempt")
 public class BaseClass {
-    public static BaseClass INSTANCE;
+    @SidedProxy(clientSide = "com.vincentmet.yamma.ClientProxy", serverSide = "com.vincentmet.yamma.ClientProxy")
+    public static ClientProxy proxy;
 
-    public BaseClass(){
-        INSTANCE = this;
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
-        Config.loadConfig(Config.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve(Ref.MODID + "-common.toml"));
-        MinecraftForge.EVENT_BUS.register(EventHandler.class);
+    @Mod.Instance(Ref.MODID)
+    public static BaseClass instance;
+
+
+    @Mod.EventHandler
+    public void preinit(FMLPreInitializationEvent e){
+        proxy.preInit(e);
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent e){
+        proxy.init(e);
+    }
+
+    @Mod.EventHandler
+    public void postinit(FMLPostInitializationEvent e){
+        proxy.postInit(e);
     }
 }

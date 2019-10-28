@@ -1,31 +1,28 @@
 package com.vincentmet.yamma;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.common.Mod;
-import java.nio.file.Path;
+import net.minecraftforge.common.config.Configuration;
 
-@Mod.EventBusSubscriber
 public class Config {
-    public static final ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
-    public static ForgeConfigSpec COMMON_CONFIG;
+    public static int radius = 5;
+    public static int height = 5;
+    public static int hungerPerOperation = 2;
 
-    public static ForgeConfigSpec.IntValue radius;
-    public static ForgeConfigSpec.IntValue height;
-    public static ForgeConfigSpec.IntValue hungerPerOperation;
-
-    static{
-        radius = COMMON_BUILDER.comment("Radius").defineInRange("radius", 5, 0, 20);
-        height = COMMON_BUILDER.comment("Height").defineInRange("height", 5, 0, 10);
-        hungerPerOperation = COMMON_BUILDER.comment("Hunger Per Operation (1 hunger icon = 2, 2 hunger icons = 4, etc, etc)").defineInRange("hungerPerOperation", 2, 0, 20);
-
-        COMMON_CONFIG = COMMON_BUILDER.build();
+    public static void readCfg(){
+        Configuration cfg = ClientProxy.cfg;
+        try{
+            cfg.load();
+            initCfg(cfg);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(cfg.hasChanged()){
+                cfg.save();
+            }
+        }
     }
-
-    public static void loadConfig(ForgeConfigSpec spec, Path path){
-        final CommentedFileConfig config = CommentedFileConfig.builder(path).sync().autosave().writingMode(WritingMode.REPLACE).build();
-        config.load();
-        spec.setConfig(config);
+    private static void initCfg(Configuration cfg){
+        radius = cfg.getInt("Radius from block you mined (diameter will be 2n+1)", "sizes", radius, 0, 20, "Max 20");
+        height = cfg.getInt("Height that will be mined (above the block you mined)", "sizes", height, 0, 10, "Max 10");
+        hungerPerOperation = cfg.getInt("Hunger per operation", "hunger", hungerPerOperation, 1, 2160, "Max 20 (10 hunger icons)");
     }
 }
