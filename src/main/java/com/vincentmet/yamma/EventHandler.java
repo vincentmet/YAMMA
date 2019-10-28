@@ -5,23 +5,18 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = "yamma", bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Ref.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventHandler {
     @SubscribeEvent
-    public static void onBlockBreak(BlockEvent.BreakEvent event){ //todo fix this
+    public static void onBlockBreak(BlockEvent.BreakEvent event){
         World world = event.getWorld().getWorld();
         BlockPos pos = event.getPos();
         PlayerEntity player = event.getPlayer();
@@ -31,9 +26,9 @@ public class EventHandler {
             if(Minecraft.getInstance().gameSettings.keyBindSneak.isKeyDown()){
                 if(!world.isRemote) {
                     if(event.getState().getBlock() == Blocks.STONE) {
-                        for(int x = -5; x < 5; x++) {
-                            for(int z = -5; z < 5; z++) {
-                                for(int y = 0; y < 5; y++) {
+                        for(int x = -Config.radius.get(); x < Config.radius.get(); x++) {
+                            for(int z = -Config.radius.get(); z < Config.radius.get(); z++) {
+                                for(int y = 0; y < Config.height.get(); y++) {
                                     BlockPos loopPos = pos.add(x, y, z);
                                     BlockState currentBlockState = world.getBlockState(loopPos);
                                     Block currentBlock = currentBlockState.getBlock();
@@ -45,7 +40,7 @@ public class EventHandler {
                             }
                         }
                         if(!player.isCreative()){
-                            player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 2);
+                            player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - Config.hungerPerOperation.get());
                         }
                         if(player.getFoodStats().getFoodLevel() < 0) {
                             player.getFoodStats().setFoodLevel(0);
@@ -55,9 +50,5 @@ public class EventHandler {
             }
 
         }
-    }
-    @SubscribeEvent
-    public static void registerItems(RegistryEvent.Register<Item> event){
-        System.out.println("Test");
     }
 }

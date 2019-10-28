@@ -3,7 +3,7 @@ loaderVersion="[26,)" #mandatory
 credits="vincentmet" #optional
 [[mods]] #mandatory
 modId="yamma" #mandatory
-version="1.14.4-0.1" #mandatory
+version="1.14.4-0.2-DEV1" #mandatory
 displayName="YAMMA" #mandatory
 description='''
 ORESSSS!!!
