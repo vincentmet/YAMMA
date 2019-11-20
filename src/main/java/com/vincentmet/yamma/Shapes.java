@@ -46,16 +46,8 @@ public class Shapes {
 
     public static class Pyramid implements IShape{
         private List<BlockPos> allBlockPos = new ArrayList<>();
-        public Cylinder(int radius, int height){
+        public Pyramid(int radius, int height){
 
-        }
-
-        @Override
-        public List<BlockPos> getAllBlockPos() {
-            return allBlockPos;
-        }
-    }
-}
         }
 
         @Override
