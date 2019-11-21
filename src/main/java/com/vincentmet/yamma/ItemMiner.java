@@ -21,10 +21,13 @@ public class ItemMiner extends Item {
         if(player.getFoodStats().getFoodLevel() <= 0 && !player.isCreative()){
             player.sendStatusMessage(new TranslationTextComponent("Too hungry to mine"), true);
         }else{
-            IShape shape = new Shapes.Cube(player.getPosition(), Config.radius.get());
+            //IShape shape = new Shapes.Cube(player.getPosition(), Config.radius.get());
+            //IShape shape = new Shapes.Cylinder(player.getPosition(), Config.radius.get(), Config.height.get());
+            IShape shape = new Shapes.Pyramid(player.getPosition(), Config.radius.get(), Config.height.get());
             for(BlockPos pos : shape.getAllBlockPos()){
                 if (world.getBlockState(pos).getBlockHardness(world, pos) != -1) {
-                    ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(world.getBlockState(pos).getBlock(), 1));
+                    //ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(world.getBlockState(pos).getBlock(), 1));
+                    player.addItemStackToInventory(new ItemStack(world.getBlockState(pos).getBlock(), 1));
                     world.setBlockState(pos, Blocks.AIR.getDefaultState());
                 }
             }

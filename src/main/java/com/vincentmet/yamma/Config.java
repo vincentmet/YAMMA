@@ -16,8 +16,8 @@ public class Config {
     public static ForgeConfigSpec.IntValue hungerPerOperation;
 
     static{
-        radius = COMMON_BUILDER.comment("Radius").defineInRange("radius", 5, 0, 20);
-        height = COMMON_BUILDER.comment("Height").defineInRange("height", 5, 0, 10);
+        radius = COMMON_BUILDER.comment("Radius").defineInRange("radius", 10, 0, 25);
+        height = COMMON_BUILDER.comment("Height").defineInRange("height", 10, 0, 25);
         hungerPerOperation = COMMON_BUILDER.comment("Hunger Per Operation (1 hunger icon = 2, 2 hunger icons = 4, etc, etc)").defineInRange("hungerPerOperation", 2, 0, 20);
 
         COMMON_CONFIG = COMMON_BUILDER.build();
