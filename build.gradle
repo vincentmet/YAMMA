@@ -12,20 +12,21 @@ apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-
-version = '1.14.4-0.2-DEV1'
+repositories {
+    maven { url = 'https://dvs1.progwml6.com/files/maven/' }
+    maven { url = 'https://modmaven.k-4u.nl' }
+}
+version = '1.14.4-0.2'
 group = 'com.vincentmet.yamma' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'yamma'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20190719-1.14.3'
+    mappings channel: 'snapshot', version: '20200119-1.14.4'
     runs {
         client {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
             mods {
                 yamma {
                     source sourceSets.main
@@ -34,8 +35,6 @@ minecraft {
         }
         server {
             workingDirectory project.file('run')
-			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
             mods {
                 yamma {
                     source sourceSets.main
@@ -45,8 +44,6 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
             args '--mod', 'yamma', '--all', '--output', file('src/generated/resources/')
             mods {
                 yamma {
@@ -58,7 +55,10 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.14.4-28.1.0'
+    minecraft 'net.minecraftforge:forge:1.14.4-28.2.0'
+
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 }
 
 jar {
