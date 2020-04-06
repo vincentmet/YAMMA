@@ -8,7 +8,7 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-version = "1.12.2-0.2"
+version = "1.12.2-0.3"
 group = "com.vincentmet.yamma"
 archivesBaseName = "yamma"
 sourceCompatibility = targetCompatibility = '1.8'
@@ -20,7 +20,9 @@ minecraft {
     runDir = "run"
     mappings = "snapshot_20171003"
 }
-dependencies {}
+dependencies {
+
+}
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
